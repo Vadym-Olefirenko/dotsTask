@@ -1,16 +1,44 @@
 
-function dots (item) {
-    let arr = [item];
-     for (let i = 0; i < item.length; i++) {
-         if (i < item.length - 1) {
-            let newItem = item.replace(item[i], item[i] + '.')
-            arr.push(newItem);
-         }
-     }
-     
-     let allDots = item.split('').join('.');
-     arr.push(allDots);
-    return arr; 
+const insertDots = (str, indexes) => {
+  let result = str;
+  for (let i = 0; i < indexes.length; i++) {
+    const index = indexes[i] + i;
+    result = result.substr(0, index) + "." + result.substr(index);
   }
-  console.log(dots('abc'))
+  return result;
+};
+
+
+const allDotsVariants = (str, numberOfPoints, variants = [], occupiedIndexes= []) => {
+  const startIndex = occupiedIndexes.length ? Math.max(...occupiedIndexes) + 1 : 1;
+
+  for (let j = startIndex; j < str.length; j++) {
+    const indexes = [...occupiedIndexes, j];
+    
+    if (indexes.length < numberOfPoints) {
+        allDotsVariants(str, numberOfPoints, variants, indexes)
+    } else {
+      variants.push(indexes);
+    }
+  }
+
+  return variants;
+}
+
+const dots = (str) => {
+    let results = [str];
+    
+    for (let valueOfPoints = 1; valueOfPoints < str.length; valueOfPoints++) {
+      const allIndexes = allDotsVariants(str, valueOfPoints);
+      console.log(allIndexes)
+        for(let index of allIndexes) {
+          results.push(insertDots(str, index))
+        }
+    }
+
+    return results;
+}
+
+console.log(dots('abcd'))
+
 
