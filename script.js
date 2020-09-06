@@ -30,7 +30,6 @@ const dots = (str) => {
     
     for (let valueOfPoints = 1; valueOfPoints < str.length; valueOfPoints++) {
       const allIndexes = allDotsVariants(str, valueOfPoints);
-      console.log(allIndexes)
         for(let index of allIndexes) {
           results.push(insertDots(str, index))
         }
